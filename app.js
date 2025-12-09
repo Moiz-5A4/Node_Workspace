@@ -1,14 +1,11 @@
 const express  = require('express');
+const morgan = require('morgan');
 const app = express();
+const tourRouter  = require('./routes/tourRoutes')
+app.use(express.json());
+if(process.env.Node_ENV === 'development') {
+app.use(morgan('dev'))
 
-app.route("/api/v1/demo").get((req,res)=>{
-    res.status(200).json({
-        message:"Success",
-
-    })
-});
-
-app.listen(3000,()=>{
-    console.log("App running on 3000");
-    
-})
+}
+app.use("/api/v1/tours",tourRouter);
+module.exports = app;
